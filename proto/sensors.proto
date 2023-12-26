@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package proto;
+
+service SensorService{
+    rpc AddEntry(SensorEntry) returns (SensorResponse);
+    rpc RetrieveLatestEntries(Empty) returns (QueryResponse);
+    rpc RetrieveEntry(QuerySensors) returns(QueryResponse);
+}
+message Empty{}
+
+message SensorEntry{
+    string deviceId = 1;
+    int32 parkingStatus = 2;
+    string timestamp = 3; 
+}
+
+message SensorResponse{
+	int32 status = 1;
+	repeated string error = 2;
+}
+
+message QuerySensors{
+    string startInterval = 1;
+    string deviceId = 2; 
+    int32 status = 3;
+    int32 skip = 4;
+    int32 limit = 5; 
+}
+
+message QueryResponse{
+    repeated ParkingResponse entries = 1;
+}
+
+message ParkingResponse {
+    string DeviceId = 1;
+    string Field = 2;
+    string Value = 3;
+    string Date = 4;
+}

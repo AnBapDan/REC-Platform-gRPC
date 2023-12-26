@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package proto;
+
+//This service is responsible for changing Database entries when asked via another microservice (ex. Transactions Microservice)
+service AuthenticatedMarketService{
+    rpc RetrieveMatches(MatchesFilter) returns (ListMatchResponse);
+    rpc UpdateMatch(ListUpdateMatch) returns (Empty);
+}
+
+//This service is responsible for handling non critical requests. (ex. Retrieving data for dashboards or auditing) 
+service MarketService{
+    rpc GetMatches(MatchesFilter) returns (ListMatchResponse);
+    rpc UpdatePrices(ListPricesUpdate) returns (Empty);
+    rpc GetPrices(PriceFilter) returns (ListPrices);
+}
+
+message Empty{}
+
+enum State{
+    Created = 0;
+    Sent = 1;
+    Paid = 2;
+    NotPaid = 3;
+    Error = 4;
+}
+
+message MatchesFilter{
+    optional string buyerID = 1;
+    optional string sellerID = 2;
+    repeated State state = 3;
+    optional string startTimestamp = 4;
+    optional string endTimestamp = 5;
+    optional string matchID = 6;
+    optional int32 skip = 7;
+    optional int32 limit = 8; 
+}
+
+message MatchResponse{
+    string timestamp = 1;
+    string buyerID = 2;
+    string sellerID = 3;
+    float energy = 4;
+    float price = 5;
+    string id = 6;
+    string createdAt = 7;
+    optional string transactionID = 8;
+    optional State transactionState = 9;
+    optional string updatedAt = 10;
+    optional string message = 11;
+}
+
+message ListMatchResponse{
+    repeated MatchResponse matches = 1;
+}
+
+message UpdateMatch{
+    string matchID = 1;
+    State state = 3;
+    optional string transactionID = 2;
+    optional string message = 4;
+}
+
+message ListUpdateMatch{
+    repeated UpdateMatch matches = 1;
+}
+
+message PriceUpdate{
+    string timestamp = 1;
+    string meterID = 2;
+    float buyPrice = 3;
+    float sellPrice = 4;
+}
+
+message ListPricesUpdate{
+    repeated PriceUpdate prices = 1;
+}
+
+message PriceFilter{
+    string meterID = 1;
+    optional string startTimestamp = 2;
+    optional string endTimestamp = 3;
+    optional int32 skip = 4;
+    optional int32 limit = 5; 
+}
+
+message PriceResponse{
+    string timestamp = 1;
+    string meterID = 2;
+    float sellPrice = 3;
+    float buyPrice = 4;
+}
+
+message ListPrices{
+    repeated PriceResponse prices = 1;
+}

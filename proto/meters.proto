@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package proto;
+
+import public "transactions.proto";
+
+service MetersService{
+    rpc AddMeasurement(MeterEntry) returns (MeterResponse);
+    rpc RetrieveMeasurement(QueryMeters) returns (QueryResponse);
+
+}
+
+message MeterEntry{
+    string deviceId = 1;
+    int32 activeImport = 2;
+    int32 activeExport = 3;
+    int32 reactiveInductive = 4;
+    int32 reactiveCapacitive = 5;
+    string timestamp = 6;
+}
+
+message MeterResponse{
+    int32 status = 1;
+    optional PaymentsResponse payments = 2;
+    optional string message = 3;
+
+}
+
+message QueryMeters{
+    optional string startInterval = 1;
+    optional string deviceId = 2;
+    optional int32 skip = 3;
+    optional int32 limit = 4; 
+}
+
+message QueryResponse{
+    repeated MeasurementResponse entries = 1;
+    optional int32 status = 2;
+    optional string error = 3;
+}
+
+message MeasurementResponse{
+    string DeviceId = 1;
+    string Field = 2;
+    string Value = 3;
+    string Date = 4;
+}

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package proto;
+
+import public "market.proto";
+
+service TransactionsService{
+    rpc AddTxReceipt(ListReceipts) returns (Empty);
+    rpc GetPayments(IssuerId) returns (PaymentsResponse);
+    rpc addAccount(DeviceInfo) returns (Empty);
+
+}
+
+
+message DeviceInfo{
+    string pubkey = 1 ;
+    string deviceId = 2;
+}
+
+message PaymentsResponse{
+    int32 approach = 1;
+    repeated MatchResponse json = 2;
+    repeated TransactionResponse transactions = 3;
+}
+
+message JsonReceipt{
+    string paymentID = 1;
+    string txID = 2;
+}
+
+message ListReceipts{
+    repeated JsonReceipt receipts = 1;
+}
+
+message IssuerId{
+    string id = 1;
+}
+
+//Envio ByteArray
+message TransactionResponse{
+    bytes transaction = 1;
+
+}
+

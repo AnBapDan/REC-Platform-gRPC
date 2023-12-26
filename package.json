@@ -1,0 +1,21 @@
+{
+  "name": "grpc-protos",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "proto:tx": "protoc --plugin=./node_modules/.bin/protoc-gen-ts -I=./proto --ts_proto_out=./typescript/ proto/transactions.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb --experimental_allow_proto3_optional",
+    "proto:sensors": "protoc --plugin=./node_modules/.bin/protoc-gen-ts -I=./proto --ts_proto_out=./typescript/ proto/sensors.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb --experimental_allow_proto3_optional",
+    "proto:meters": "protoc --plugin=./node_modules/.bin/protoc-gen-ts -I=./proto --ts_proto_out=./typescript proto/meters.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb --experimental_allow_proto3_optional",
+    "proto:auth": "protoc --plugin=./node_modules/.bin/protoc-gen-ts -I=./proto --ts_proto_out=./typescript/ proto/auth.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb --experimental_allow_proto3_optional",
+    "proto:market": "protoc --plugin=./node_modules/.bin/protoc-gen-ts -I=./proto --ts_proto_out=./typescript/ proto/market.proto --ts_proto_opt=nestJs=true --ts_proto_opt=fileSuffix=.pb --experimental_allow_proto3_optional",
+    
+    "proto:all": "npm run proto:sensors && npm run proto:meters && npm run proto:auth"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ts-protoc-gen": "^0.15.0"
+  }
+}

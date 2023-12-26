@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto;
+
+service AuthService{
+	rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+}
+
+message ValidateRequest{
+	string authorization = 1;
+	string timestamp = 2;
+	string deviceid = 3;
+}
+
+message ValidateResponse{
+	int32 status = 1;
+	repeated string error = 2;
+}
